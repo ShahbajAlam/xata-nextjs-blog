@@ -1,0 +1,6 @@
+{
+  "databaseURL": "https://Shahbaj-Alam-s-workspace-83s6oa.eu-central-1.xata.sh/db/blog",
+  "codegen": {
+    "output": "src/xata.ts"
+  }
+}
