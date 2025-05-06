@@ -50,3 +50,7 @@ html {
 ::-webkit-scrollbar {
     display: none;
 }
+
+.blog-title {
+    outline: none;
+}

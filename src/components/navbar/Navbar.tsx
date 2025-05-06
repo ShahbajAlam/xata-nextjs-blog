@@ -6,7 +6,7 @@ export default async function Navbar() {
     const email = (await getServerSession()) as string;
 
     return (
-        <nav className="px-12 py-4 flex justify-between items-center fixed w-full left-0 top-0">
+        <nav className="px-12 py-4 flex justify-between items-center fixed w-full left-0 top-0 z-10">
             <Link href="/">
                 <h1>Blog</h1>
             </Link>

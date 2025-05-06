@@ -2,7 +2,11 @@
 
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
-import { useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import { uploadImageToCloudinary } from "@/utils/uploadImageToCloudinary";
+import ImageUpload from "./ImageUpload";
+import BlogTitle from "./BlogTitle";
+import Toast from "../toast/Toast";
 
 const modules = {
     toolbar: [
@@ -21,6 +25,10 @@ const modules = {
 export default function TextEditor() {
     const inputRef = useRef<ReactQuill | null>(null);
     const [text, setText] = useState<string>("");
+    const [fileInput, setFileInput] = useState<File>();
+    const [imageUrl, setImageUrl] = useState<string>("");
+    const [title, setTitle] = useState<string>("");
+    const [showToast, setShowToast] = useState<boolean>(false);
 
     useEffect(() => {
         const id = setInterval(() => {
@@ -33,18 +41,48 @@ export default function TextEditor() {
         return () => clearInterval(id);
     }, []);
 
-    console.log(text);
+    useEffect(
+        function () {
+            const id = setTimeout(function () {
+                setShowToast(false);
+            }, 3000);
+            return () => clearTimeout(id);
+        },
+        [showToast]
+    );
+
+    async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        if (text.length < 25) {
+            setShowToast(true);
+            return;
+        }
+
+        console.log(text);
+    }
 
     return (
-        <form className="flex flex-col gap-6 items-center">
-            <h1>Write your blog</h1>
-            <ReactQuill ref={inputRef} theme="snow" modules={modules} />
-            <button
-                type="submit"
-                className="btn btn-success btn-lg rounded-lg self-end"
+        <>
+            <form
+                onSubmit={handleSubmit}
+                className="flex flex-col gap-6 items-center"
             >
-                Submit
-            </button>
-        </form>
+                <div className="self-start flex justify-between items-center w-full gap-8">
+                    <BlogTitle title={title} setTitle={setTitle} />
+                    <ImageUpload setFileInput={setFileInput} />
+                </div>
+                <ReactQuill ref={inputRef} theme="snow" modules={modules} />
+                <button
+                    type="submit"
+                    className="btn btn-success btn-lg rounded-lg self-end"
+                    disabled={!title.trim()}
+                >
+                    Submit
+                </button>
+            </form>
+
+            {showToast && <Toast message="Blog is too short to post" />}
+        </>
     );
 }

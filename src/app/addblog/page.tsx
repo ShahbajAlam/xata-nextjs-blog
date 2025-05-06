@@ -1,12 +1,12 @@
-"use client";
+import getServerSession from "@/actions/getServerSession";
+import TextEditor from "@/components/editor/TextEditor";
+import { redirect } from "next/navigation";
 
-import dynamic from "next/dynamic";
+export default async function Page() {
+    const email = await getServerSession();
 
-const TextEditor = dynamic(() => import("@/components/editor/TextEditor"), {
-    ssr: false,
-});
+    if (!email) redirect("/login");
 
-export default function Page() {
     return (
         <div className="min-h-[calc(100vh-80px)] flex justify-center items-center">
             <TextEditor />

@@ -1,12 +1,18 @@
 "use client";
 
 import logout from "@/actions/logout";
+import { useClickOutside } from "@react-hookz/web";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function Avatar({ email }: { email: string }) {
+    const menuRef = useRef(null);
     const [hidden, setHidden] = useState<boolean>(true);
+
+    useClickOutside(menuRef, () => {
+        setHidden(true);
+    });
 
     return (
         <div className="relative">
@@ -18,13 +24,24 @@ export default function Avatar({ email }: { email: string }) {
             </button>
 
             <ul
+                ref={menuRef}
                 className={`menu bg-base-200 rounded-lg w-56 absolute top-[120%] right-0 ${hidden ? "hidden" : ""} font-bold flex flex-col gap-2 p-2`}
             >
                 <li>
-                    <Link href="/myblogs">My Blogs</Link>
+                    <Link
+                        href="/myblogs"
+                        onClick={() => setHidden((prevState) => !prevState)}
+                    >
+                        My Blogs
+                    </Link>
                 </li>
                 <li>
-                    <Link href="/addblog">Add Blog</Link>
+                    <Link
+                        href="/addblog"
+                        onClick={() => setHidden((prevState) => !prevState)}
+                    >
+                        Add Blog
+                    </Link>
                 </li>
                 <li
                     className="text-red-400"
