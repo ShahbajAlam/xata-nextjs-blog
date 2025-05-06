@@ -13,3 +13,40 @@ h1 {
 h2 {
     @apply text-3xl font-bold p-0;
 }
+
+.ql-toolbar {
+    padding: 16px 24px !important;
+    margin-bottom: 24px;
+    button {
+        width: 30px !important;
+        height: 30px !important;
+    }
+}
+
+.ql-picker-label {
+    font-size: 16px;
+}
+
+.ql-editor {
+    min-height: 300px;
+    border-top: 1px solid #ccc;
+}
+
+.ql-snow .ql-editor code {
+    padding: 10px !important;
+    border-radius: 2px !important;
+    font-family: "Courier New", monospace !important;
+}
+
+[data-theme="black"] .ql-snow .ql-editor code {
+    background-color: #2e2e2e !important;
+    color: #f8f8f2 !important;
+}
+
+html {
+    scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}

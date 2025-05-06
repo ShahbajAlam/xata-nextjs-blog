@@ -1,6 +1,6 @@
+import "./globals.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
 import Navbar from "@/components/navbar/Navbar";
 
@@ -31,7 +31,7 @@ export default function RootLayout({
             >
                 <ThemeProvider>
                     <Navbar />
-                    <div className="px-12 mt-[80px]">{children}</div>
+                    <div className="px-12 pb-12 mt-[80px]">{children}</div>
                 </ThemeProvider>
             </body>
         </html>
