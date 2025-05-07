@@ -93,6 +93,7 @@ export default function TextEditor() {
             if (success) {
                 setToastMessage(data);
                 setShowToast(true);
+                reset();
             } else {
                 setToastMessage(data);
                 setShowToast(true);
