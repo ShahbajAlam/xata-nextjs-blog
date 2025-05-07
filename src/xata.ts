@@ -5,10 +5,92 @@ import type {
     SchemaInference,
     XataRecord,
 } from "@xata.io/client";
-import { config } from "dotenv";
-config();
 
 const tables = [
+    {
+        name: "posts",
+        checkConstraints: {
+            posts_xata_id_length_xata_id: {
+                name: "posts_xata_id_length_xata_id",
+                columns: ["xata_id"],
+                definition: "CHECK ((length(xata_id) < 256))",
+            },
+        },
+        foreignKeys: {},
+        primaryKey: [],
+        uniqueConstraints: {
+            _pgroll_new_posts_xata_id_key: {
+                name: "_pgroll_new_posts_xata_id_key",
+                columns: ["xata_id"],
+            },
+        },
+        columns: [
+            {
+                name: "content",
+                type: "text",
+                notNull: true,
+                unique: false,
+                defaultValue: null,
+                comment: "",
+            },
+            {
+                name: "image",
+                type: "text",
+                notNull: false,
+                unique: false,
+                defaultValue: null,
+                comment: "",
+            },
+            {
+                name: "slug",
+                type: "text",
+                notNull: true,
+                unique: false,
+                defaultValue: null,
+                comment: "",
+            },
+            {
+                name: "title",
+                type: "text",
+                notNull: true,
+                unique: false,
+                defaultValue: null,
+                comment: "",
+            },
+            {
+                name: "xata_createdat",
+                type: "datetime",
+                notNull: true,
+                unique: false,
+                defaultValue: "now()",
+                comment: "",
+            },
+            {
+                name: "xata_id",
+                type: "text",
+                notNull: true,
+                unique: true,
+                defaultValue: "('rec_'::text || (xata_private.xid())::text)",
+                comment: "",
+            },
+            {
+                name: "xata_updatedat",
+                type: "datetime",
+                notNull: true,
+                unique: false,
+                defaultValue: "now()",
+                comment: "",
+            },
+            {
+                name: "xata_version",
+                type: "int",
+                notNull: true,
+                unique: false,
+                defaultValue: "0",
+                comment: "",
+            },
+        ],
+    },
     {
         name: "users",
         checkConstraints: {
@@ -86,10 +168,14 @@ const tables = [
 export type SchemaTables = typeof tables;
 export type InferredTypes = SchemaInference<SchemaTables>;
 
+export type Posts = InferredTypes["posts"];
+export type PostsRecord = Posts & XataRecord;
+
 export type Users = InferredTypes["users"];
 export type UsersRecord = Users & XataRecord;
 
 export type DatabaseSchema = {
+    posts: PostsRecord;
     users: UsersRecord;
 };
 
@@ -98,8 +184,6 @@ const DatabaseClient = buildClient();
 const defaultOptions = {
     databaseURL:
         "https://Shahbaj-Alam-s-workspace-83s6oa.eu-central-1.xata.sh/db/blog",
-    apiKey: process.env.XATA_API_KEY,
-    branch: "main",
 };
 
 export class XataClient extends DatabaseClient<DatabaseSchema> {
@@ -108,6 +192,8 @@ export class XataClient extends DatabaseClient<DatabaseSchema> {
             {
                 ...defaultOptions,
                 ...options,
+                apiKey: process.env.XATA_API_KEY,
+                branch: "main",
             },
             tables
         );

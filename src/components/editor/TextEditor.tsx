@@ -7,6 +7,8 @@ import { uploadImageToCloudinary } from "@/utils/uploadImageToCloudinary";
 import ImageUpload from "./ImageUpload";
 import BlogTitle from "./BlogTitle";
 import Toast from "../toast/Toast";
+import { addBlog } from "@/actions/addBlog";
+import { createSlug } from "@/utils/createSlug";
 
 const modules = {
     toolbar: [
@@ -23,12 +25,14 @@ const modules = {
 };
 
 export default function TextEditor() {
+    const [toastMessage, setToastMessage] = useState<string>("");
     const inputRef = useRef<ReactQuill | null>(null);
     const [text, setText] = useState<string>("");
     const [fileInput, setFileInput] = useState<File>();
     const [imageUrl, setImageUrl] = useState<string>("");
     const [title, setTitle] = useState<string>("");
     const [showToast, setShowToast] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
         const id = setInterval(() => {
@@ -51,15 +55,54 @@ export default function TextEditor() {
         [showToast]
     );
 
+    function reset() {
+        setTitle("");
+        setFileInput(undefined);
+        setText("");
+    }
+
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
         if (text.length < 25) {
             setShowToast(true);
+            setToastMessage("Blog is too short to post");
             return;
         }
 
-        console.log(text);
+        try {
+            setLoading(true);
+            if (fileInput) {
+                const { data, success } =
+                    await uploadImageToCloudinary(fileInput);
+                if (success) {
+                    setImageUrl(data);
+                } else {
+                    setToastMessage(data);
+                    setShowToast(true);
+                }
+            }
+            const { success, data } = (await addBlog({
+                blog: {
+                    title,
+                    content: text,
+                    url: imageUrl,
+                    slug: createSlug(title),
+                },
+            })) as { success: boolean; data: any };
+            if (success) {
+                setToastMessage(data);
+                setShowToast(true);
+            } else {
+                setToastMessage(data);
+                setShowToast(true);
+            }
+        } catch (error: any) {
+            setToastMessage(error.data);
+            setShowToast(true);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -73,16 +116,21 @@ export default function TextEditor() {
                     <ImageUpload setFileInput={setFileInput} />
                 </div>
                 <ReactQuill ref={inputRef} theme="snow" modules={modules} />
+
                 <button
                     type="submit"
                     className="btn btn-success btn-lg rounded-lg self-end"
-                    disabled={!title.trim()}
+                    disabled={!title.trim() || loading}
                 >
-                    Submit
+                    {loading ? (
+                        <span className="loading loading-spinner text-primary"></span>
+                    ) : (
+                        "Submit"
+                    )}
                 </button>
             </form>
 
-            {showToast && <Toast message="Blog is too short to post" />}
+            {showToast && <Toast message={toastMessage} />}
         </>
     );
 }

@@ -1,6 +1,6 @@
 export async function uploadImageToCloudinary(
     file: File
-): Promise<{ success: boolean; message: string }> {
+): Promise<{ success: boolean; data: string }> {
     const cloudName = "dqid08knh";
     const uploadPreset = "blogapp";
 
@@ -17,12 +17,12 @@ export async function uploadImageToCloudinary(
         });
 
         if (!response.ok) {
-            return { success: false, message: "Upload failed" };
+            return { success: false, data: "Upload failed" };
         }
 
         const data = await response.json();
-        return { success: true, message: data };
+        return { success: true, data: data.secure_url };
     } catch (error) {
-        return { success: false, message: "Upload failed" };
+        return { success: false, data: "Upload failed" };
     }
 }
