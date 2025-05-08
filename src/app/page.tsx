@@ -1,14 +1,9 @@
-"use client";
+import BlogList from "@/components/blogs/BlogList";
 
-import { useTheme } from "@/contexts/ThemeProvider";
-
-export default function Home() {
-    const { toggleTheme } = useTheme();
-
+export default async function Home() {
     return (
-        <div>
-            <h1 className="">Hello</h1>
-            <button onClick={toggleTheme}>change</button>
+        <div className="min-h-[calc(100vh-80px)] flex justify-center">
+            <BlogList />
         </div>
     );
 }

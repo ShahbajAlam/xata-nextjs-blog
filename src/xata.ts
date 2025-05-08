@@ -26,6 +26,14 @@ const tables = [
         },
         columns: [
             {
+                name: "author",
+                type: "text",
+                notNull: true,
+                unique: false,
+                defaultValue: null,
+                comment: "",
+            },
+            {
                 name: "content",
                 type: "text",
                 notNull: true,
@@ -38,7 +46,8 @@ const tables = [
                 type: "text",
                 notNull: false,
                 unique: false,
-                defaultValue: null,
+                defaultValue:
+                    "'https://res.cloudinary.com/dqid08knh/image/upload/v1746691387/rhqkadzugblg17wmuj68.jpg'::text",
                 comment: "",
             },
             {

@@ -1,0 +1,25 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_d0e66nd442djk2h8sm90",
+    "operations": [
+      {
+        "add_column": {
+          "table": "posts",
+          "column": {
+            "name": "image",
+            "type": "text",
+            "comment": "",
+            "default": "'https://drive.google.com/file/d/1fdR86u6WRygDsY577pCm18AFyJwKG_yz/view?usp=sharing'",
+            "nullable": true
+          }
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_d0e66nd442djk2h8sm90",
+  "parent": "mig_d0e65vl442djk2h8sm80",
+  "schema": "public",
+  "startedAt": "2025-05-08T07:55:10.185222Z"
+}

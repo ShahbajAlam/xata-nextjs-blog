@@ -1,0 +1,25 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_d0e6b2u3bkbl0uadphpg",
+    "operations": [
+      {
+        "add_column": {
+          "table": "posts",
+          "column": {
+            "name": "image",
+            "type": "text",
+            "comment": "",
+            "default": "'https://res.cloudinary.com/dqid08knh/image/upload/v1746691387/rhqkadzugblg17wmuj68.jpg'",
+            "nullable": true
+          }
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_d0e6b2u3bkbl0uadphpg",
+  "parent": "mig_d0e6asm3bkbl0uadphng",
+  "schema": "public",
+  "startedAt": "2025-05-08T08:04:28.600048Z"
+}
