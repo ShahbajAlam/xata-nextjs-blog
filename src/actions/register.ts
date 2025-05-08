@@ -9,10 +9,12 @@ import { config } from "dotenv";
 config();
 const xata = getXataClient();
 
-export default async function register(email: string, password: string) {
+export default async function register(
+    name: string,
+    email: string,
+    password: string
+) {
     const cookieStore = await cookies();
-
-    console.log(email);
 
     try {
         const existingUser = await xata.db.users.filter({ email }).getFirst();
@@ -23,6 +25,7 @@ export default async function register(email: string, password: string) {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = await xata.db.users.create({
+            name,
             email,
             password: hashedPassword,
         });

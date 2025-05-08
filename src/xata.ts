@@ -131,6 +131,14 @@ const tables = [
                 comment: "",
             },
             {
+                name: "name",
+                type: "text",
+                notNull: true,
+                unique: false,
+                defaultValue: null,
+                comment: "",
+            },
+            {
                 name: "password",
                 type: "text",
                 notNull: true,

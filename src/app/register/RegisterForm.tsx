@@ -9,6 +9,7 @@ import { sendOTP } from "@/actions/sendOTP";
 import register from "@/actions/register";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import NameInput from "./NameInput";
 
 interface Input {
     email: string;
@@ -16,6 +17,7 @@ interface Input {
 }
 
 export default function Form() {
+    const [name, setName] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const [enteredOtp, setEnteredOtp] = useState<string>("");
     const [generatedOtp, setGeneratedOtp] = useState<string>("");
@@ -36,8 +38,8 @@ export default function Form() {
     );
 
     async function getOTP() {
-        if (!input.email.trim() || !input.password.trim()) {
-            setError("Both email and password are required");
+        if (!input.email.trim() || !input.password.trim() || !name.trim()) {
+            setError("All the fields are required");
             return;
         }
 
@@ -62,13 +64,17 @@ export default function Form() {
 
         setLoading(true);
         const { success, message } = (await register(
+            name,
             input.email,
             input.password
         )) as { success: boolean; message: string };
         setLoading(false);
 
-        if (!success) setError(message);
-        else {
+        if (!success) {
+            setError(message);
+            setEnteredOtp("");
+            setGeneratedOtp("");
+        } else {
             redirect("/");
         }
     }
@@ -80,6 +86,7 @@ export default function Form() {
                 className="flex flex-col gap-6 bg-gray-700 p-8 rounded-lg w-[90%] max-w-[600px] mx-auto items-stretch"
             >
                 <h2 className="text-center mb-4">Welcome!!</h2>
+                <NameInput name={name} setName={setName} />
                 <EmailInput input={input} setInput={setInput} />
                 <PasswordInput input={input} setInput={setInput} />
                 {!generatedOtp && (
