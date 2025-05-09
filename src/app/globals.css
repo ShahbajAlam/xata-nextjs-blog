@@ -54,3 +54,7 @@ html {
 .blog-title {
     outline: none;
 }
+
+.content > * {
+    margin: 0;
+}
