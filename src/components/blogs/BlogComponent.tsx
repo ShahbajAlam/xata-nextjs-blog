@@ -1,8 +1,10 @@
-import { getAuthorName } from "@/utils/getAuthorName";
-import { Blog } from "./BlogList";
-import Link from "next/link";
+"use client";
 
-export default function BlogComponent({ blog }: { blog: Blog }) {
+import Link from "next/link";
+import { getAuthorName } from "@/utils/getAuthorName";
+import { BlogProps } from "./BlogList";
+
+export default function BlogComponent({ blog }: { blog: BlogProps }) {
     return (
         <Link href={blog.xata_id}>
             <li className="card gap-4 w-96 shadow-sm bg-base-100 p-2 border-2 rounded-md h-full">
