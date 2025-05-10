@@ -13,11 +13,11 @@ export default async function getServerSession() {
     if (!token) return null;
 
     try {
-        const { email } = jwt.verify(
+        const { email, id } = jwt.verify(
             token,
             process.env.JWT_SECRET as string
-        ) as any;
-        return email;
+        ) as { email: string; id: string };
+        return { id, email };
     } catch (error) {
         return null;
     }

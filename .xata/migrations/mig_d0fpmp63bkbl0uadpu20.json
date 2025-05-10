@@ -1,0 +1,22 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_d0fpmp63bkbl0uadpu20",
+    "operations": [
+      {
+        "alter_column": {
+          "up": "(SELECT CASE WHEN \"image\" IS NULL THEN '' ELSE \"image\" END)",
+          "down": "(SELECT CASE WHEN \"image\" IS NULL THEN '' ELSE \"image\" END)",
+          "table": "posts",
+          "column": "image",
+          "nullable": false
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_d0fpmp63bkbl0uadpu20",
+  "parent": "mig_d0fpmku3bkbl0uadpu10",
+  "schema": "public",
+  "startedAt": "2025-05-10T18:31:01.719018Z"
+}

@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from "react";
 export default function ImageUpload({
     setFileInput,
 }: {
-    setFileInput: Dispatch<SetStateAction<File | undefined>>;
+    setFileInput: Dispatch<SetStateAction<File | null>>;
 }) {
     return (
         <div className="flex flex-col gap-2 basis-1/2">

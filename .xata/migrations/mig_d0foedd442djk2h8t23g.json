@@ -1,0 +1,20 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_d0foedd442djk2h8t23g",
+    "operations": [
+      {
+        "alter_column": {
+          "name": "author_name",
+          "table": "posts",
+          "column": "author"
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_d0foedd442djk2h8t23g",
+  "parent": "mig_d0egbgl442djk2h8spa0",
+  "schema": "public",
+  "startedAt": "2025-05-10T17:04:54.077218Z"
+}

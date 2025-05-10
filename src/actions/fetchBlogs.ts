@@ -15,7 +15,7 @@ export async function fetchBlogs(
             .filter({
                 $all: [
                     search ? { title: { $contains: search } } : {},
-                    author ? { author: { $is: author } } : {},
+                    author ? { author_id: { $is: author } } : {},
                 ],
             })
             .sort("xata_createdat", "desc")

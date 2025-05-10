@@ -29,7 +29,7 @@ export default async function page({
     if (!blog?.xata_id)
         return (
             <div className="min-h-screen px-4 py-8 flex justify-center  bg-base-100">
-                <p className="text-center text-3xl text-red-500">
+                <p className="text-center text-3xl text-red-400">
                     Blog not found!
                 </p>
             </div>
@@ -58,7 +58,7 @@ export default async function page({
 
                     <div className="flex gap-10 justify-end">
                         <p className="text-sm text-gray-500 grow-0">
-                            Posted by {getAuthorName(blog.author)}
+                            Posted by {getAuthorName(blog.author_name)}
                         </p>
                         <p className="text-sm text-gray-500 grow-0">
                             Posted on {formattedDate}

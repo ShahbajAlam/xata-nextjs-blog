@@ -21,7 +21,7 @@ export default async function login(email: string, password: string) {
             return { success: false, message: "Invalid email or password." };
         } else {
             const token = jwt.sign(
-                { email },
+                { email, id: user.xata_id },
                 process.env.JWT_SECRET as string,
                 {
                     expiresIn: "7d",

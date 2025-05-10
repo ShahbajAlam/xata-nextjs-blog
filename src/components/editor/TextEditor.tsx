@@ -24,12 +24,14 @@ const modules = {
     ],
 };
 
-export default function TextEditor() {
+export default function TextEditor({ author_id }: { author_id: string }) {
     const [toastMessage, setToastMessage] = useState<string>("");
     const inputRef = useRef<ReactQuill | null>(null);
     const [text, setText] = useState<string>("");
-    const [fileInput, setFileInput] = useState<File>();
-    const [imageUrl, setImageUrl] = useState<string>("");
+    const [fileInput, setFileInput] = useState<File | null>(null);
+    const [imageUrl, setImageUrl] = useState<string>(
+        "https://res.cloudinary.com/dqid08knh/image/upload/v1746691387/rhqkadzugblg17wmuj68.jpg"
+    );
     const [title, setTitle] = useState<string>("");
     const [showToast, setShowToast] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
@@ -57,8 +59,9 @@ export default function TextEditor() {
 
     function reset() {
         setTitle("");
-        setFileInput(undefined);
+        setFileInput(null);
         setText("");
+        inputRef.current?.getEditor().setText("");
     }
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -88,6 +91,7 @@ export default function TextEditor() {
                     content: text,
                     url: imageUrl,
                     slug: createSlug(title),
+                    author_id,
                 },
             })) as { success: boolean; data: any };
             if (success) {

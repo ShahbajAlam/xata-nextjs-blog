@@ -32,7 +32,7 @@ export default async function register(
 
         if (newUser) {
             const token = jwt.sign(
-                { email: newUser.email },
+                { email: newUser.email, id: newUser.xata_id },
                 process.env.JWT_SECRET as string,
                 {
                     expiresIn: "7d",

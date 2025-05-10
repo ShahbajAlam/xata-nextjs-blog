@@ -10,7 +10,7 @@ export async function fetchBlogCount(search: string = "", author: string = "") {
             .filter({
                 $all: [
                     search ? { title: { $contains: search } } : {},
-                    author ? { author: { $is: author } } : {},
+                    author ? { author_id: { $is: author } } : {},
                 ],
             })
             .summarize({
