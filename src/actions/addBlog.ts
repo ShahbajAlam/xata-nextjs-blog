@@ -34,6 +34,6 @@ export async function addBlog({ blog }: { blog: Blog }) {
         console.log(error);
         return { success: false, data: "Failed to add post" };
     } finally {
-        revalidatePath("/");
+        revalidatePath("/", "page");
     }
 }

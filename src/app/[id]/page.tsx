@@ -1,10 +1,12 @@
 import { fetchBlogById } from "@/actions/fetchBlogById";
-import { BlogProps } from "@/components/blogs/BlogList";
 import { getAuthorName } from "@/utils/getAuthorName";
 import Image from "next/image";
 import React from "react";
 import DOMPurify from "dompurify";
 import { JSDOM } from "jsdom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBookBookmark } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 const window = new JSDOM("").window;
 const purify = DOMPurify(window);
@@ -17,14 +19,13 @@ function formatDate(dateInput: Date): string {
     return `${day} ${month}, ${year}`;
 }
 
-export default async function page({
-    params,
-}: {
-    params: {
+export default async function page(props: {
+    params: Promise<{
         id: string;
-    };
+    }>;
 }) {
-    const blog = await fetchBlogById(params.id);
+    const { id } = await props.params;
+    const blog = await fetchBlogById(id);
 
     if (!blog?.xata_id)
         return (
@@ -65,12 +66,24 @@ export default async function page({
                         </p>
                     </div>
 
+                    <div className="divider"></div>
+
                     <article
-                        className="prose content mt-16"
+                        className="prose content mt-2"
                         dangerouslySetInnerHTML={{
                             __html: purify.sanitize(blog.content),
                         }}
                     />
+
+                    <div className="divider"></div>
+                    <div className="flex justify-between items-center">
+                        <Link href={`${blog.xata_id}/comments`}>Comments</Link>
+                        <FontAwesomeIcon
+                            icon={faBookBookmark}
+                            className="w-4 h-4"
+                            role="button"
+                        />
+                    </div>
                 </div>
             </div>
         </div>

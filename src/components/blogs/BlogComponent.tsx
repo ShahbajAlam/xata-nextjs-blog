@@ -5,7 +5,9 @@ import { getAuthorName } from "@/utils/getAuthorName";
 import { BlogProps } from "./BlogList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { deleteBlog } from "@/actions/deleteBlog";
+import Toast from "../toast/Toast";
 
 function formatDate(dateInput: Date): string {
     const date = new Date(dateInput);
@@ -23,12 +25,34 @@ export default function BlogComponent({
     author_id?: string;
 }) {
     const formattedDate = formatDate(blog.xata_createdat);
-    const [showModal, setShowModal] = useState<boolean>(false);
+    const [message, setMessage] = useState<string>("");
+    const [showToast, setShowToast] = useState<boolean>(false);
+
+    useEffect(
+        function () {
+            const id = setTimeout(function () {
+                setShowToast(false);
+            }, 3000);
+            return () => clearTimeout(id);
+        },
+        [showToast]
+    );
+
+    async function handleDeleteBlog(id: string) {
+        const success = await deleteBlog(id);
+        if (success) {
+            setShowToast(true);
+            setMessage("Blog deleted successfully");
+        } else {
+            setShowToast(true);
+            setMessage("Blog is not deleted");
+        }
+    }
 
     return (
         <>
-            <Link href={blog.xata_id}>
-                <li className="card gap-4 w-96 shadow-sm bg-base-100 p-2 border-2 rounded-md h-full">
+            <li className="card gap-4 w-96 shadow-sm bg-base-100 p-2 border-2 rounded-md h-full">
+                <Link href={blog.xata_id}>
                     <figure>
                         <img
                             src={blog.image}
@@ -50,18 +74,20 @@ export default function BlogComponent({
                             </div>
                         </div>
                     </div>
-                </li>
-            </Link>
+                </Link>
 
-            {author_id === blog.author_id && (
-                <FontAwesomeIcon
-                    icon={faTrash}
-                    color="#FF6347"
-                    className="w-3 h-3"
-                    role="button"
-                    onClick={() => setShowModal(true)}
-                />
-            )}
+                {author_id === blog.author_id && (
+                    <FontAwesomeIcon
+                        icon={faTrash}
+                        color="#FF6347"
+                        className="w-4 h-4 cursor-pointer self-end"
+                        role="button"
+                        onClick={() => handleDeleteBlog(blog.xata_id)}
+                    />
+                )}
+            </li>
+
+            {showToast && <Toast message={message} />}
         </>
     );
 }

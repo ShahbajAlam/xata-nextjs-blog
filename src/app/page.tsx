@@ -9,20 +9,18 @@ export default async function Home(props: {
     searchParams?: Promise<{
         search?: string;
         page?: string;
-        author?: string;
     }>;
 }) {
     const params = await props.searchParams;
     const page = parseInt(params?.page || "1", 10);
     const search = params?.search || "";
-    const author = params?.author || "";
 
     const { success: successBlogCount, data: blogCount } = await fetchBlogCount(
         search,
-        author
+        ""
     );
     const { success: successAllBlogs, data: blogs } = JSON.parse(
-        await fetchBlogs(page, search, author)
+        await fetchBlogs(page, search, "")
     ) as { success: boolean; data: string | Array<BlogProps> };
 
     if (!successAllBlogs || !successBlogCount) return null;
@@ -42,6 +40,7 @@ export default async function Home(props: {
             {(blogCount as number) > SIZE && (
                 <Pagination
                     page={page}
+                    search={search}
                     totalPages={Math.ceil((blogCount as number) / SIZE)}
                 />
             )}
