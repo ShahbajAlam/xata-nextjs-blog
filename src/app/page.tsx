@@ -3,6 +3,7 @@ import { fetchBlogs } from "@/actions/fetchBlogs";
 import BlogList from "@/components/blogs/BlogList";
 import { type BlogProps } from "@/components/blogs/BlogList";
 import Pagination from "@/components/blogs/Pagination";
+import Search from "@/components/search/Search";
 import { SIZE } from "@/utils/var";
 
 export default async function Home(props: {
@@ -36,6 +37,7 @@ export default async function Home(props: {
 
     return (
         <div className="min-h-[calc(100vh-80px)] flex flex-col items-center gap-8">
+            <Search />
             <BlogList blogs={blogs as Array<BlogProps>} />
             {(blogCount as number) > SIZE && (
                 <Pagination
