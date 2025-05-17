@@ -1,6 +1,5 @@
 import { fetchBlogById } from "@/actions/fetchBlogById";
 import { getAuthorName } from "@/utils/getAuthorName";
-import Image from "next/image";
 import React from "react";
 import DOMPurify from "dompurify";
 import { JSDOM } from "jsdom";
@@ -42,15 +41,12 @@ export default async function page(props: {
         <div className="min-h-screen px-4 py-8 flex justify-center bg-base-100">
             <div className="card w-full max-w-4xl shadow-xl">
                 {blog.image && (
-                    <figure>
-                        <Image
-                            src={blog.image}
-                            alt={blog.title}
-                            width={1200}
-                            height={600}
-                            className="w-full h-auto object-cover rounded-t-xl"
-                        />
-                    </figure>
+                    <img
+                        src={blog.image}
+                        alt={blog.title}
+                        width={800}
+                        className="aspect-video block mx-auto bg-contain rounded-xl"
+                    />
                 )}
                 <div className="card-body px-0">
                     <h1 className="card-title text-3xl font-bold">

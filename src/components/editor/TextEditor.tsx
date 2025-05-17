@@ -25,13 +25,12 @@ const modules = {
 };
 
 export default function TextEditor({ author_id }: { author_id: string }) {
+    let imageUrl =
+        "https://res.cloudinary.com/dqid08knh/image/upload/v1746691387/rhqkadzugblg17wmuj68.jpg";
     const [toastMessage, setToastMessage] = useState<string>("");
     const inputRef = useRef<ReactQuill | null>(null);
     const [text, setText] = useState<string>("");
     const [fileInput, setFileInput] = useState<File | null>(null);
-    const [imageUrl, setImageUrl] = useState<string>(
-        "https://res.cloudinary.com/dqid08knh/image/upload/v1746691387/rhqkadzugblg17wmuj68.jpg"
-    );
     const [title, setTitle] = useState<string>("");
     const [showToast, setShowToast] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
@@ -79,7 +78,7 @@ export default function TextEditor({ author_id }: { author_id: string }) {
                 const { data, success } =
                     await uploadImageToCloudinary(fileInput);
                 if (success) {
-                    setImageUrl(data);
+                    imageUrl = data;
                 } else {
                     setToastMessage(data);
                     setShowToast(true);
