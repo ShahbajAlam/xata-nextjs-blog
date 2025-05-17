@@ -26,18 +26,16 @@ export default async function Home(props: {
 
     if (!successAllBlogs || !successBlogCount) return null;
 
-    if (blogs.length === 0)
-        return (
-            <div className="min-h-screen px-4 py-8 flex justify-center  bg-base-100">
-                <p className="text-center text-3xl text-red-400">
-                    No Blogs Found!!!
-                </p>
-            </div>
-        );
-
     return (
         <div className="min-h-[calc(100vh-80px)] flex flex-col items-center gap-8">
             <Search />
+            {blogCount === 0 && (
+                <div className="min-h-screen px-4 py-8 flex justify-center  bg-base-100">
+                    <p className="text-center text-3xl text-red-400">
+                        No Blogs Found!!!
+                    </p>
+                </div>
+            )}
             <BlogList blogs={blogs as Array<BlogProps>} />
             {(blogCount as number) > SIZE && (
                 <Pagination

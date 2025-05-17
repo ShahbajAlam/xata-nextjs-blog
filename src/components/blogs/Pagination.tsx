@@ -13,8 +13,9 @@ export default function Pagination({
 }) {
     return (
         <div className="join gap-6 items-center">
-            <button className="join-item btn" disabled={page === 1}>
+            <button className="join-item btn p-0 w-12" disabled={page === 1}>
                 <Link
+                    className="w-full h-full flex justify-center items-center"
                     href={{
                         pathname: "/",
                         query: {
@@ -28,8 +29,12 @@ export default function Pagination({
                 </Link>
             </button>
             <p>Page {page}</p>
-            <button className="join-item btn" disabled={page === totalPages}>
+            <button
+                className="join-item btn p-0 w-12"
+                disabled={page === totalPages}
+            >
                 <Link
+                    className="w-full h-full flex justify-center items-center"
                     href={{
                         pathname: "/",
                         query: {
