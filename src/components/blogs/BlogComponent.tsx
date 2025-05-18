@@ -4,10 +4,11 @@ import Link from "next/link";
 import { getAuthorName } from "@/utils/getAuthorName";
 import { BlogProps } from "./BlogList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { deleteBlog } from "@/actions/deleteBlog";
 import Toast from "../toast/Toast";
+import { useRouter } from "next/navigation";
 
 function formatDate(dateInput: Date): string {
     const date = new Date(dateInput);
@@ -24,6 +25,7 @@ export default function BlogComponent({
     blog: BlogProps;
     author_id?: string;
 }) {
+    const router = useRouter();
     const formattedDate = formatDate(blog.xata_createdat);
     const [message, setMessage] = useState<string>("");
     const [showToast, setShowToast] = useState<boolean>(false);
@@ -77,13 +79,27 @@ export default function BlogComponent({
                 </Link>
 
                 {author_id === blog.author_id && (
-                    <FontAwesomeIcon
-                        icon={faTrash}
-                        color="#FF6347"
-                        className="w-4 h-4 cursor-pointer self-end"
-                        role="button"
-                        onClick={() => handleDeleteBlog(blog.xata_id)}
-                    />
+                    <div className="flex gap-8 justify-end">
+                        <Link
+                            href={{
+                                pathname: "/editblog",
+                            }}
+                        >
+                            <FontAwesomeIcon
+                                icon={faEdit}
+                                color="#50C878"
+                                className="w-4 h-4 cursor-pointer self-end"
+                                role="button"
+                            />
+                        </Link>
+                        <FontAwesomeIcon
+                            icon={faTrash}
+                            color="#FF6347"
+                            className="w-4 h-4 cursor-pointer self-end"
+                            role="button"
+                            onClick={() => handleDeleteBlog(blog.xata_id)}
+                        />
+                    </div>
                 )}
             </li>
 
