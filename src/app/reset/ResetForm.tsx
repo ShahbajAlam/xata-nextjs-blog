@@ -8,18 +8,14 @@ import EmailInput from "../register/EmailInput";
 import OTPInput from "../register/OTPInput";
 import PasswordInput from "../register/PasswordInput";
 import { redirect } from "next/navigation";
-
-interface Input {
-    email: string;
-    password: string;
-}
+import { AuthFormInput } from "@/types";
 
 export default function Form() {
     const [toastMsg, setToastMsg] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const [enteredOtp, setEnteredOtp] = useState<string>("");
     const [generatedOtp, setGeneratedOtp] = useState<string>("");
-    const [input, setInput] = useState<Input>({
+    const [input, setInput] = useState<AuthFormInput>({
         email: "",
         password: "",
     });

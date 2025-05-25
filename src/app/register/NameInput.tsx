@@ -1,12 +1,6 @@
-import { Dispatch, SetStateAction } from "react";
+import { NameInputProps } from "@/types";
 
-export default function NameInput({
-    name,
-    setName,
-}: {
-    name: string;
-    setName: Dispatch<SetStateAction<string>>;
-}) {
+export default function NameInput({ name, setName }: NameInputProps) {
     return (
         <label className="floating-label">
             <input

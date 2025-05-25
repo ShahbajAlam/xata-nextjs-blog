@@ -1,10 +1,6 @@
-import { Dispatch, SetStateAction } from "react";
+import { ImageUploadProps } from "@/types";
 
-export default function ImageUpload({
-    setFileInput,
-}: {
-    setFileInput: Dispatch<SetStateAction<File | null>>;
-}) {
+export default function ImageUpload({ setFileInput }: ImageUploadProps) {
     return (
         <div className="flex flex-col gap-2 basis-1/2">
             <label htmlFor="image">Cover Image (Optional)</label>

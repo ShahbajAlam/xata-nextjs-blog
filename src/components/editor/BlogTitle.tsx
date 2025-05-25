@@ -1,9 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
-
-interface BlogTitleProps {
-    title: string;
-    setTitle: Dispatch<SetStateAction<string>>;
-}
+import { BlogTitleProps } from "@/types";
 
 export default function BlogTitle(props: BlogTitleProps) {
     const { title, setTitle } = props;

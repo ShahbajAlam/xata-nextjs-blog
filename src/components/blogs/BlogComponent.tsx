@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { getAuthorName } from "@/utils/getAuthorName";
-import { BlogProps } from "./BlogList";
+import { BlogProps } from "@/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
@@ -29,6 +29,7 @@ export default function BlogComponent({
     const formattedDate = formatDate(blog.xata_createdat);
     const [message, setMessage] = useState<string>("");
     const [showToast, setShowToast] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(
         function () {
@@ -41,6 +42,7 @@ export default function BlogComponent({
     );
 
     async function handleDeleteBlog(id: string) {
+        setLoading(true);
         const success = await deleteBlog(id);
         if (success) {
             setShowToast(true);
@@ -49,6 +51,7 @@ export default function BlogComponent({
             setShowToast(true);
             setMessage("Blog is not deleted");
         }
+        setLoading(false);
     }
 
     return (
@@ -79,7 +82,7 @@ export default function BlogComponent({
                 </Link>
 
                 {author_id === blog.author_id && (
-                    <div className="flex gap-8 justify-end">
+                    <div className="flex gap-6 justify-end">
                         <FontAwesomeIcon
                             icon={faEdit}
                             color="#50C878"
@@ -87,13 +90,17 @@ export default function BlogComponent({
                             role="button"
                             onClick={() => router.push(`/edit/${blog.xata_id}`)}
                         />
-                        <FontAwesomeIcon
-                            icon={faTrash}
-                            color="#FF6347"
-                            className="w-4 h-4 cursor-pointer self-end"
-                            role="button"
-                            onClick={() => handleDeleteBlog(blog.xata_id)}
-                        />
+                        {loading ? (
+                            <span className="loading loading-spinner text-[#FF6347] w-4 h-4"></span>
+                        ) : (
+                            <FontAwesomeIcon
+                                icon={faTrash}
+                                color="#FF6347"
+                                className="w-4 h-4 cursor-pointer self-end"
+                                role="button"
+                                onClick={() => handleDeleteBlog(blog.xata_id)}
+                            />
+                        )}
                     </div>
                 )}
             </li>

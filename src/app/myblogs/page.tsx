@@ -1,8 +1,9 @@
 import { fetchBlogCount } from "@/actions/fetchBlogCount";
 import { fetchBlogs } from "@/actions/fetchBlogs";
 import getServerSession from "@/actions/getServerSession";
-import BlogList, { BlogProps } from "@/components/blogs/BlogList";
+import BlogList from "@/components/blogs/BlogList";
 import Pagination from "@/components/blogs/Pagination";
+import { BlogProps } from "@/types";
 import { SIZE } from "@/utils/var";
 import { redirect } from "next/navigation";
 

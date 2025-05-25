@@ -1,8 +1,6 @@
-interface Toast {
-    message: string;
-}
+import { ToastProps } from "@/types";
 
-export default function Toast(props: Toast) {
+export default function Toast(props: ToastProps) {
     const { message } = props;
 
     return (

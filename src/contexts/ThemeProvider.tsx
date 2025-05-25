@@ -8,10 +8,7 @@ import React, {
     useContext,
 } from "react";
 
-interface ThemeContextType {
-    theme: "emerald" | "black";
-    toggleTheme: () => void;
-}
+import { ThemeContextType } from "@/types";
 
 const ThemeContext = createContext<ThemeContextType>({
     theme: "emerald",

@@ -1,17 +1,5 @@
 import BlogComponent from "./BlogComponent";
-
-export interface BlogProps {
-    author_name: string;
-    author_id: string;
-    xata_id: string;
-    xata_version: number;
-    xata_createdat: Date;
-    xata_updatedat: Date;
-    title: string;
-    slug: string;
-    content: string;
-    image?: string;
-}
+import { BlogProps } from "@/types";
 
 export default function BlogList({
     blogs,

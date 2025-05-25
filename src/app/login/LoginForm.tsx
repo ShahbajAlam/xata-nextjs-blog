@@ -8,16 +8,12 @@ import { FormEvent, useEffect, useState } from "react";
 import EmailInput from "../register/EmailInput";
 import PasswordInput from "../register/PasswordInput";
 import LoginButton from "./LoginButton";
-
-interface Input {
-    email: string;
-    password: string;
-}
+import { AuthFormInput } from "@/types";
 
 export default function LoginForm() {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>("");
-    const [input, setInput] = useState<Input>({
+    const [input, setInput] = useState<AuthFormInput>({
         email: "",
         password: "",
     });

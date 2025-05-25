@@ -1,16 +1,12 @@
 import Link from "next/link";
+import { PaginationProps } from "@/types";
 
 export default function Pagination({
     page,
     totalPages,
     search,
     author,
-}: {
-    author?: string;
-    search?: string;
-    page: number;
-    totalPages: number;
-}) {
+}: PaginationProps) {
     return (
         <div className="join gap-6 items-center">
             <button className="join-item btn p-0 w-12" disabled={page === 1}>

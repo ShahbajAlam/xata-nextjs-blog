@@ -9,7 +9,8 @@ import BlogTitle from "./BlogTitle";
 import Toast from "../toast/Toast";
 import { addBlog } from "@/actions/addBlog";
 import { createSlug } from "@/utils/createSlug";
-import { BlogProps } from "../blogs/BlogList";
+import { BlogProps } from "@/types";
+import { updateBlog } from "@/actions/updateBlog";
 
 const modules = {
     toolbar: [
@@ -45,16 +46,12 @@ export default function TextEditor({
     const [showToast, setShowToast] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
 
-    console.log(imageUrl);
-
     useEffect(() => {
-        inputRef.current?.getEditor().clipboard.dangerouslyPasteHTML(text);
+        const editor = inputRef.current?.getEditor();
+        if (editor) editor.clipboard.dangerouslyPasteHTML(text);
 
         const id = setInterval(() => {
-            const editor = inputRef.current?.getEditor();
-            if (editor) {
-                setText(editor.root.innerHTML);
-            }
+            if (editor) setText(editor.root.innerHTML);
         }, 2000);
 
         return () => clearInterval(id);
@@ -98,22 +95,39 @@ export default function TextEditor({
                     setShowToast(true);
                 }
             }
-            const { success, data } = (await addBlog({
-                blog: {
+            if (blogToEdit) {
+                const { success, data } = await updateBlog(blogToEdit.xata_id, {
                     title,
                     content: text,
-                    url: imageUrl,
                     slug: createSlug(title),
-                    author_id,
-                },
-            })) as { success: boolean; data: any };
-            if (success) {
-                setToastMessage(data);
-                setShowToast(true);
-                reset();
+                    url: imageUrl,
+                });
+                if (success) {
+                    setToastMessage(data);
+                    setShowToast(true);
+                    reset();
+                } else {
+                    setToastMessage(data);
+                    setShowToast(true);
+                }
             } else {
-                setToastMessage(data);
-                setShowToast(true);
+                const { success, data } = (await addBlog({
+                    blog: {
+                        title,
+                        content: text,
+                        url: imageUrl,
+                        slug: createSlug(title),
+                        author_id,
+                    },
+                })) as { success: boolean; data: any };
+                if (success) {
+                    setToastMessage(data);
+                    setShowToast(true);
+                    reset();
+                } else {
+                    setToastMessage(data);
+                    setShowToast(true);
+                }
             }
         } catch (error: any) {
             setToastMessage(error.data);
@@ -142,8 +156,10 @@ export default function TextEditor({
                 >
                     {loading ? (
                         <span className="loading loading-spinner text-primary"></span>
+                    ) : blogToEdit ? (
+                        "Update Blog"
                     ) : (
-                        "Submit"
+                        "Add Blog"
                     )}
                 </button>
             </form>

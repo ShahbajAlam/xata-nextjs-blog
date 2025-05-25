@@ -10,11 +10,7 @@ import register from "@/actions/register";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import NameInput from "./NameInput";
-
-interface Input {
-    email: string;
-    password: string;
-}
+import { AuthFormInput } from "@/types";
 
 export default function Form() {
     const [name, setName] = useState<string>("");
@@ -22,7 +18,7 @@ export default function Form() {
     const [enteredOtp, setEnteredOtp] = useState<string>("");
     const [generatedOtp, setGeneratedOtp] = useState<string>("");
     const [error, setError] = useState<string>("");
-    const [input, setInput] = useState<Input>({
+    const [input, setInput] = useState<AuthFormInput>({
         email: "",
         password: "",
     });

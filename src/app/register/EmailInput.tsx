@@ -1,16 +1,12 @@
 import { Dispatch, SetStateAction } from "react";
-
-interface Input {
-    email: string;
-    password: string;
-}
+import { AuthFormInput } from "@/types";
 
 export default function EmailInput({
     input,
     setInput,
 }: {
-    input: Input;
-    setInput: Dispatch<SetStateAction<Input>>;
+    input: AuthFormInput;
+    setInput: Dispatch<SetStateAction<AuthFormInput>>;
 }) {
     return (
         <label className="floating-label">

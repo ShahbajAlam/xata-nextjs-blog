@@ -1,7 +1,7 @@
 import { fetchBlogById } from "@/actions/fetchBlogById";
 import getServerSession from "@/actions/getServerSession";
-import { BlogProps } from "@/components/blogs/BlogList";
 import TextEditor from "@/components/editor/TextEditor";
+import { BlogProps } from "@/types";
 import { redirect } from "next/navigation";
 
 export default async function Page(props: {

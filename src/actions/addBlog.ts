@@ -3,17 +3,11 @@
 import { getXataClient } from "@/xata";
 import { revalidatePath } from "next/cache";
 
-interface Blog {
-    url?: string | null;
-    title: string;
-    slug: string;
-    content: string;
-    author_id: string;
-}
+import { NewBlog } from "@/types";
 
 const xata = getXataClient();
 
-export async function addBlog({ blog }: { blog: Blog }) {
+export async function addBlog({ blog }: { blog: NewBlog }) {
     const { title, content, url, slug, author_id } = blog;
 
     try {

@@ -1,12 +1,6 @@
-import { Dispatch, SetStateAction } from "react";
+import { OTPInputProps } from "@/types";
 
-export default function OTPInput({
-    enteredOtp,
-    setEnteredOtp,
-}: {
-    enteredOtp: string;
-    setEnteredOtp: Dispatch<SetStateAction<string>>;
-}) {
+export default function OTPInput({ enteredOtp, setEnteredOtp }: OTPInputProps) {
     return (
         <label className="floating-label">
             <input

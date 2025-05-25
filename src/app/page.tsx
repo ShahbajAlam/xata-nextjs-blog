@@ -1,9 +1,9 @@
 import { fetchBlogCount } from "@/actions/fetchBlogCount";
 import { fetchBlogs } from "@/actions/fetchBlogs";
 import BlogList from "@/components/blogs/BlogList";
-import { type BlogProps } from "@/components/blogs/BlogList";
 import Pagination from "@/components/blogs/Pagination";
 import Search from "@/components/search/Search";
+import { BlogProps } from "@/types";
 import { SIZE } from "@/utils/var";
 
 export default async function Home(props: {
