@@ -76,3 +76,19 @@ export interface NameInputProps {
     name: string;
     setName: React.Dispatch<React.SetStateAction<string>>;
 }
+
+export interface CommentProps {
+    xata_id?: string;
+    comment: string;
+    post_id: string;
+    author_id: string;
+    author_name: string;
+    xata_createdat?: Date;
+    xata_updatedat?: Date;
+}
+
+export interface NewCommentData {
+    comment: string;
+    post_id: string;
+    author_id: string;
+}

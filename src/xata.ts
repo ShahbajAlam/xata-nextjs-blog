@@ -8,6 +8,90 @@ import type {
 
 const tables = [
     {
+        name: "comments",
+        checkConstraints: {
+            comments_xata_id_length_xata_id: {
+                name: "comments_xata_id_length_xata_id",
+                columns: ["xata_id"],
+                definition: "CHECK ((length(xata_id) < 256))",
+            },
+        },
+        foreignKeys: {},
+        primaryKey: [],
+        uniqueConstraints: {
+            _pgroll_new_comments_xata_id_key: {
+                name: "_pgroll_new_comments_xata_id_key",
+                columns: ["xata_id"],
+            },
+        },
+        columns: [
+            {
+                name: "author_id",
+                type: "text",
+                notNull: true,
+                unique: false,
+                defaultValue: null,
+                comment: "",
+            },
+            {
+                name: "author_name",
+                type: "text",
+                notNull: true,
+                unique: false,
+                defaultValue: null,
+                comment: "",
+            },
+            {
+                name: "comment",
+                type: "text",
+                notNull: true,
+                unique: false,
+                defaultValue: null,
+                comment: "",
+            },
+            {
+                name: "post_id",
+                type: "text",
+                notNull: true,
+                unique: false,
+                defaultValue: null,
+                comment: "",
+            },
+            {
+                name: "xata_createdat",
+                type: "datetime",
+                notNull: true,
+                unique: false,
+                defaultValue: "now()",
+                comment: "",
+            },
+            {
+                name: "xata_id",
+                type: "text",
+                notNull: true,
+                unique: true,
+                defaultValue: "('rec_'::text || (xata_private.xid())::text)",
+                comment: "",
+            },
+            {
+                name: "xata_updatedat",
+                type: "datetime",
+                notNull: true,
+                unique: false,
+                defaultValue: "now()",
+                comment: "",
+            },
+            {
+                name: "xata_version",
+                type: "int",
+                notNull: true,
+                unique: false,
+                defaultValue: "0",
+                comment: "",
+            },
+        ],
+    },
+    {
         name: "posts",
         checkConstraints: {
             posts_xata_id_length_xata_id: {
@@ -192,6 +276,9 @@ const tables = [
 export type SchemaTables = typeof tables;
 export type InferredTypes = SchemaInference<SchemaTables>;
 
+export type Comments = InferredTypes["comments"];
+export type CommentsRecord = Comments & XataRecord;
+
 export type Posts = InferredTypes["posts"];
 export type PostsRecord = Posts & XataRecord;
 
@@ -199,6 +286,7 @@ export type Users = InferredTypes["users"];
 export type UsersRecord = Users & XataRecord;
 
 export type DatabaseSchema = {
+    comments: CommentsRecord;
     posts: PostsRecord;
     users: UsersRecord;
 };
