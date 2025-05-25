@@ -9,6 +9,7 @@ import BlogTitle from "./BlogTitle";
 import Toast from "../toast/Toast";
 import { addBlog } from "@/actions/addBlog";
 import { createSlug } from "@/utils/createSlug";
+import { BlogProps } from "../blogs/BlogList";
 
 const modules = {
     toolbar: [
@@ -24,18 +25,31 @@ const modules = {
     ],
 };
 
-export default function TextEditor({ author_id }: { author_id: string }) {
+export default function TextEditor({
+    author_id,
+    blog,
+}: {
+    author_id: string;
+    blog?: string;
+}) {
+    const blogToEdit = blog ? (JSON.parse(blog) as BlogProps) : null;
+
     let imageUrl =
+        blogToEdit?.image ||
         "https://res.cloudinary.com/dqid08knh/image/upload/v1746691387/rhqkadzugblg17wmuj68.jpg";
     const [toastMessage, setToastMessage] = useState<string>("");
     const inputRef = useRef<ReactQuill | null>(null);
-    const [text, setText] = useState<string>("");
+    const [text, setText] = useState<string>(blogToEdit?.content || "");
     const [fileInput, setFileInput] = useState<File | null>(null);
-    const [title, setTitle] = useState<string>("");
+    const [title, setTitle] = useState<string>(blogToEdit?.title || "");
     const [showToast, setShowToast] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
 
+    console.log(imageUrl);
+
     useEffect(() => {
+        inputRef.current?.getEditor().clipboard.dangerouslyPasteHTML(text);
+
         const id = setInterval(() => {
             const editor = inputRef.current?.getEditor();
             if (editor) {

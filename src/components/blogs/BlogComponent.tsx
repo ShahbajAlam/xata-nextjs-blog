@@ -80,18 +80,13 @@ export default function BlogComponent({
 
                 {author_id === blog.author_id && (
                     <div className="flex gap-8 justify-end">
-                        <Link
-                            href={{
-                                pathname: "/editblog",
-                            }}
-                        >
-                            <FontAwesomeIcon
-                                icon={faEdit}
-                                color="#50C878"
-                                className="w-4 h-4 cursor-pointer self-end"
-                                role="button"
-                            />
-                        </Link>
+                        <FontAwesomeIcon
+                            icon={faEdit}
+                            color="#50C878"
+                            className="w-4 h-4 cursor-pointer self-end"
+                            role="button"
+                            onClick={() => router.push(`/edit/${blog.xata_id}`)}
+                        />
                         <FontAwesomeIcon
                             icon={faTrash}
                             color="#FF6347"
