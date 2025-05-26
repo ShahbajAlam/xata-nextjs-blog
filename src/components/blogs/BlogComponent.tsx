@@ -57,7 +57,7 @@ export default function BlogComponent({
     return (
         <>
             <li className="card gap-4 w-96 shadow-sm bg-base-100 p-2 border-2 rounded-md h-full">
-                <Link href={blog.xata_id}>
+                <Link href={`/blogs/${blog.xata_id}`}>
                     <figure>
                         <img
                             src={blog.image}
