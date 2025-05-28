@@ -45,8 +45,8 @@ export default function Avatar({ email }: { email: string }) {
                 </li>
                 <li
                     className="text-red-400"
-                    onClick={() => {
-                        logout();
+                    onClick={async () => {
+                        await logout();
                         redirect("/");
                     }}
                 >
