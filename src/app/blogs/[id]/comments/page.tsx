@@ -1,17 +1,8 @@
 import { fetchComments } from "@/actions/fetchComments";
-import { CommentProps } from "@/types";
 import getServerSession from "@/actions/getServerSession";
-import { getAuthorName } from "@/utils/getAuthorName";
-import { redirect } from "next/navigation";
 import CommentForm from "./CommentForm";
-
-function formatDate(date: Date) {
-    return new Date(date).toLocaleDateString("en-US", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-    });
-}
+import CommentList from "./CommentList";
+import { CommentProps } from "@/types";
 
 export default async function CommentsPage({
     params,
@@ -22,7 +13,9 @@ export default async function CommentsPage({
 }) {
     const session = await getServerSession();
     const post_id = (await params).id;
-    const { success, data: comments } = await fetchComments(post_id);
+    const { success, data: comments } = JSON.parse(
+        await fetchComments(post_id)
+    ) as { success: boolean; data: Array<CommentProps> };
 
     if (!success) {
         return (
@@ -54,42 +47,11 @@ export default async function CommentsPage({
             )}
 
             <div className="space-y-6">
-                {comments.length === 0 ? (
-                    <p className="text-center text-gray-500">No comments yet</p>
-                ) : (
-                    comments.map((comment) => (
-                        <div
-                            key={comment.xata_id}
-                            className="bg-base-200 p-4 rounded-lg"
-                        >
-                            <div className="flex justify-between items-start mb-2">
-                                <div>
-                                    <p className="font-semibold">
-                                        {getAuthorName(comment.author_name)}
-                                    </p>
-                                    <p className="text-sm text-gray-500">
-                                        {comment.xata_createdat &&
-                                            formatDate(comment.xata_createdat)}
-                                    </p>
-                                </div>
-
-                                {session?.id === comment.author_id && (
-                                    <div className="flex gap-2">
-                                        <button className="text-blue-500 hover:text-blue-600 text-sm">
-                                            Edit
-                                        </button>
-                                        <button className="text-red-500 hover:text-red-600 text-sm">
-                                            Delete
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                            <p className="whitespace-pre-wrap">
-                                {comment.comment}
-                            </p>
-                        </div>
-                    ))
-                )}
+                <CommentList
+                    comments={comments}
+                    currentUserId={session?.id}
+                    postId={post_id}
+                />
             </div>
         </div>
     );

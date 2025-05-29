@@ -20,7 +20,6 @@ export async function deleteComment(
             data: "Comment deleted successfully",
         };
     } catch (error) {
-        console.error("Error deleting comment:", error);
         return {
             success: false,
             data: "Failed to delete comment",

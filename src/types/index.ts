@@ -78,7 +78,7 @@ export interface NameInputProps {
 }
 
 export interface CommentProps {
-    xata_id?: string;
+    xata_id: string;
     comment: string;
     post_id: string;
     author_id: string;
