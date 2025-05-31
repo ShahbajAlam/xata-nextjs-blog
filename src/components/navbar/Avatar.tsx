@@ -29,6 +29,14 @@ export default function Avatar({ email }: { email: string }) {
             >
                 <li>
                     <Link
+                        href="/addblog"
+                        onClick={() => setHidden((prevState) => !prevState)}
+                    >
+                        Add Blog
+                    </Link>
+                </li>
+                <li>
+                    <Link
                         href="/myblogs"
                         onClick={() => setHidden((prevState) => !prevState)}
                     >
@@ -37,10 +45,10 @@ export default function Avatar({ email }: { email: string }) {
                 </li>
                 <li>
                     <Link
-                        href="/addblog"
+                        href="/bookmarked"
                         onClick={() => setHidden((prevState) => !prevState)}
                     >
-                        Add Blog
+                        Bookmarked Blogs
                     </Link>
                 </li>
                 <li

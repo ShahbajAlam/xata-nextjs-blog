@@ -92,3 +92,8 @@ export interface NewCommentData {
     post_id: string;
     author_id: string;
 }
+
+export interface BookmarkProps {
+    author_id: string;
+    post_id: string;
+}

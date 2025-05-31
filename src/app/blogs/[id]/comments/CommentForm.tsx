@@ -56,7 +56,7 @@ export default function CommentForm({ post_id, author_id }: CommentFormProps) {
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                         placeholder="Write your comment..."
-                        className="textarea textarea-bordered min-h-[100px] w-full"
+                        className="textarea min-h-[100px] w-full border-1 focus:outline-none"
                     />
                     <button
                         type="submit"

@@ -3,9 +3,11 @@ import { getAuthorName } from "@/utils/getAuthorName";
 import React from "react";
 import DOMPurify from "dompurify";
 import { JSDOM } from "jsdom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookBookmark } from "@fortawesome/free-solid-svg-icons";
+import BookmarkButton from "@/components/blogs/BookmarkButton";
 import Link from "next/link";
+import { toggleBookmark } from "@/actions/toggleBookmark";
+import { isBookmarked } from "@/actions/isBookmarked";
+import getServerSession from "@/actions/getServerSession";
 
 const window = new JSDOM("").window;
 const purify = DOMPurify(window);
@@ -25,6 +27,10 @@ export default async function page(props: {
 }) {
     const { id } = await props.params;
     const blog = await fetchBlogById(id);
+    const session = await getServerSession();
+    const isBookmarkedByUser = session?.id
+        ? await isBookmarked(id, session?.id)
+        : false;
 
     if (!blog?.xata_id)
         return (
@@ -36,6 +42,12 @@ export default async function page(props: {
         );
 
     const formattedDate = formatDate(blog.xata_createdat);
+
+    async function handleBookmarkToggle() {
+        "use server";
+        if (!session?.id) return;
+        await toggleBookmark(id, session?.id);
+    }
 
     return (
         <div className="min-h-screen px-4 py-8 flex justify-center bg-base-100">
@@ -52,7 +64,6 @@ export default async function page(props: {
                     <h1 className="card-title text-3xl font-bold">
                         {blog.title}
                     </h1>
-
                     <div className="flex gap-10 justify-end">
                         <p className="text-sm text-gray-500 grow-0">
                             Posted by {getAuthorName(blog.author_name)}
@@ -61,9 +72,7 @@ export default async function page(props: {
                             Posted on {formattedDate}
                         </p>
                     </div>
-
                     <div className="divider"></div>
-
                     <article
                         className="prose content mt-2"
                         dangerouslySetInnerHTML={{
@@ -72,13 +81,33 @@ export default async function page(props: {
                     />
 
                     <div className="divider"></div>
-                    <div className="flex justify-between items-center">
-                        <Link href={`${blog.xata_id}/comments`}>Comments</Link>
-                        <FontAwesomeIcon
-                            icon={faBookBookmark}
-                            className="w-4 h-4"
-                            role="button"
-                        />
+
+                    <div className="flex justify-between items-center gap-4">
+                        {session?.id !== blog.author_id ? (
+                            <Link
+                                href={`/?author=${blog.author_id}`}
+                                className="btn btn-outline"
+                            >
+                                Check other posts by{" "}
+                                {getAuthorName(blog.author_name)}
+                            </Link>
+                        ) : (
+                            <div></div>
+                        )}
+                        <div className="flex items-center gap-4">
+                            <Link
+                                href={`${blog.xata_id}/comments`}
+                                className="btn btn-secondary"
+                            >
+                                Comments
+                            </Link>
+                            <form action={handleBookmarkToggle}>
+                                <BookmarkButton
+                                    isBookmarked={isBookmarkedByUser}
+                                    isLoggedIn={!!session?.id}
+                                />
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
